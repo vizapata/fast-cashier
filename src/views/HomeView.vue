@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from "@/components/TheWelcome.vue";
+import Workspace from '../components/Workspace.vue';
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <Workspace></Workspace>
   </main>
 </template>
