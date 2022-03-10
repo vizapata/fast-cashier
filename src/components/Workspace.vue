@@ -1,3 +1,6 @@
+<script setup>
+import Button from 'primevue/button';
+</script>
 <script>
 // const operators = Object.freeze([
 //   '*', '/', '-', '+'
@@ -116,27 +119,29 @@ export default {
   <div class="display">{{ displayValue }}</div>
   <div class="keyboard">
     <div class="numbers">
-      <div
+      <Button
         v-for="key in this.keys"
         :key="key.name"
-        :class="`key ${key.name}`"
+        :class="`p-button-outlined p-button-secondary ${key.name}`"
+        :label="key.display"
         @click="update(key)"
-      >{{ key.display }}</div>
+      />
     </div>
     <div class="actions">
-      <div
+      <Button
         v-for="key in this.actions"
         :key="key.name"
-        :class="`key ${key.name}`"
+        :class="`p-button-outlined p-button-secondary ${key.name}`"
+        :label="key.display"
         @click="update(key)"
-      >{{ key.display }}</div>
+      />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .display {
-  color: #fff;
+  color: darkgray;
   text-align: right;
   padding: 30px 0;
   font-size: 2em;
@@ -153,7 +158,8 @@ export default {
     display: block;
     cursor: pointer;
     font-size: large;
-    color: #fff;
+    color: darkgray;
+    background-color: #000;
     font-weight: bolder;
     &:hover {
       color: darkgray;

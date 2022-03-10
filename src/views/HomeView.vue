@@ -4,6 +4,6 @@ import Workspace from '../components/Workspace.vue';
 
 <template>
   <main>
-    <Workspace></Workspace>
+    <workspace></workspace>
   </main>
 </template>
