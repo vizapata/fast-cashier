@@ -1,10 +1,19 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "@/components/HelloWorld.vue";
+import { RouterView } from "vue-router";
+import AppTopBar from "./components/AppTopBar.vue";
+import AppFooter from "./components/AppFooter.vue";
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <AppTopBar />
+    <div class="layout-main-container">
+      <div class="layout-main">
+        <RouterView />
+      </div>
+      <AppFooter />
+    </div>
+  </div>
 </template>
 
 <style lang="scss">

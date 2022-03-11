@@ -1,5 +1,8 @@
 <script setup>
+import { mapActions } from 'pinia';
 import Button from 'primevue/button';
+import { KEY_TYPES } from '../../config';
+import { keyboardStore } from '../../stores/keyboard';
 </script>
 <script>
 // const operators = Object.freeze([
@@ -26,63 +29,27 @@ export default {
         { name: 'key-equals', value: keyboard.actions.equals, display: '=', type: 'action' },
       ]),
       keys: Object.freeze([
-        { name: 'key-1', value: 1, display: '1', type: 'numeric' },
-        { name: 'key-2', value: 2, display: '2', type: 'numeric' },
-        { name: 'key-3', value: 3, display: '3', type: 'numeric' },
-        { name: 'key-4', value: 4, display: '4', type: 'numeric' },
-        { name: 'key-5', value: 5, display: '5', type: 'numeric' },
-        { name: 'key-6', value: 6, display: '6', type: 'numeric' },
-        { name: 'key-7', value: 7, display: '7', type: 'numeric' },
-        { name: 'key-8', value: 8, display: '8', type: 'numeric' },
-        { name: 'key-9', value: 9, display: '9', type: 'numeric' },
-        { name: 'key-0', value: 0, display: '0', type: 'numeric' },
+        { name: 'key-1', value: 1, display: '1', type: KEY_TYPES.DIGIT },
+        { name: 'key-2', value: 2, display: '2', type: KEY_TYPES.DIGIT },
+        { name: 'key-3', value: 3, display: '3', type: KEY_TYPES.DIGIT },
+        { name: 'key-4', value: 4, display: '4', type: KEY_TYPES.DIGIT },
+        { name: 'key-5', value: 5, display: '5', type: KEY_TYPES.DIGIT },
+        { name: 'key-6', value: 6, display: '6', type: KEY_TYPES.DIGIT },
+        { name: 'key-7', value: 7, display: '7', type: KEY_TYPES.DIGIT },
+        { name: 'key-8', value: 8, display: '8', type: KEY_TYPES.DIGIT },
+        { name: 'key-9', value: 9, display: '9', type: KEY_TYPES.DIGIT },
+        { name: 'key-0', value: 0, display: '0', type: KEY_TYPES.DIGIT },
         { name: 'key-00', value: 100, display: '00', type: 'multiply' },
         { name: 'key-000', value: 1000, display: '000', type: 'multiply' },
-        { name: 'key-multiply', value: '*', display: '*', type: 'operator' },
-        // { name: 'key-divide', value: '/', display: '/', type: 'operator' },
-        { name: 'key-plus', value: '+', display: '+', type: 'operator' },
-        // { name: 'key-minus', value: '-', display: '-', type: 'operator' },
+        { name: 'key-multiply', value: '*', display: '*', type: KEY_TYPES.OPERATION },
+        // { name: 'key-divide', value: '/', display: '/', type: KEY_TYPES.OPERATION },
+        { name: 'key-plus', value: '+', display: '+', type: KEY_TYPES.OPERATION },
+        // { name: 'key-minus', value: '-', display: '-', type: KEY_TYPES.OPERATION },
       ])
     }
   },
   methods: {
-    update(key) {
-      this.hasResult = false
-      if (key.type === 'numeric') {
-        if (this.operator === '') {
-          this.leftValue = (this.leftValue * 10) + key.value
-        }
-        else {
-          this.rightValue = (this.rightValue * 10) + key.value
-        }
-      }
-      else if (key.type === 'multiply') {
-        if (this.operator === '') {
-          this.leftValue *= key.value
-        }
-        else {
-          this.rightValue *= key.value
-        }
-      }
-      else if (key.type === 'operator') {
-        if (this.operator !== '') this.equals()
-        this.operator = key.value
-      }
-      else if (key.type === 'action') {
-        switch (key.value) {
-          case keyboard.actions.equals:
-            this.equals()
-            break
-          case keyboard.actions.clear:
-            this.clear()
-            break
-          case keyboard.actions.backspace:
-            this.backspace()
-            break
-          default: break
-        }
-      }
-    },
+    ...mapActions(keyboardStore, ['keyPressed']),
     equals() {
       this.leftValue = Math.floor(eval(this.displayValue))
       this.rightValue = null
@@ -116,24 +83,23 @@ export default {
 </script>
 
 <template>
-  <div class="display">{{ displayValue }}</div>
   <div class="keyboard">
-    <div class="numbers">
-      <Button
-        v-for="key in this.keys"
-        :key="key.name"
-        :class="`p-button-outlined p-button-secondary ${key.name}`"
-        :label="key.display"
-        @click="update(key)"
-      />
-    </div>
     <div class="actions">
       <Button
         v-for="key in this.actions"
         :key="key.name"
         :class="`p-button-outlined p-button-secondary ${key.name}`"
         :label="key.display"
-        @click="update(key)"
+        @click="keyPressed(key)"
+      />
+    </div>
+    <div class="numbers">
+      <Button
+        v-for="key in this.keys"
+        :key="key.name"
+        :class="`p-button-outlined p-button-secondary ${key.name}`"
+        :label="key.display"
+        @click="keyPressed(key)"
       />
     </div>
   </div>
@@ -148,7 +114,7 @@ export default {
 }
 .keyboard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 20px;
   .key {
     padding: 10px;
@@ -204,8 +170,7 @@ export default {
   }
   .actions {
     @extend .numbers;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: 1fr;
   }
 }
 </style>
