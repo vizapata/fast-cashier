@@ -1,19 +1,23 @@
 <template>
   <div class="categories-list">
-    <Category v-for="category in categories" :key="category.id" :category="category" />
+    <CategoryItem
+      v-for="category in categories"
+      :key="category.id"
+      :category="category"
+    />
   </div>
 </template>
 <script>
-import { DEFAULT_CATEGORIES } from '../../config'
-import Category from './Category.vue'
+import { DEFAULT_CATEGORIES } from "../../config";
+import CategoryItem from "./CategoryItem.vue";
 export default {
-  components: { Category },
+  components: { CategoryItem },
   data: function () {
     return {
-      categories: DEFAULT_CATEGORIES
-    }
+      categories: DEFAULT_CATEGORIES,
+    };
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .categories-list {

@@ -1,13 +1,6 @@
-<script setup>
-import CategoriesList from '../components/categories/CategoriesList.vue';
-import MainKeyboard from '../components/keyboard/MainKeyboard.vue';
-import RecordList from '../components/record/RecordList.vue';
-import KeyboardDisplay from '../components/keyboard/KeyboardDisplay.vue';
-</script>
-
 <template>
   <main>
-    <div class="workspace">
+    <div class="workspace" @keyup="dispatchKeyEvent" ref="workspace">
       <div class="categories-component">
         <CategoriesList />
       </div>
@@ -22,6 +15,28 @@ import KeyboardDisplay from '../components/keyboard/KeyboardDisplay.vue';
     </div>
   </main>
 </template>
+
+<script>
+import CategoriesList from "../components/categories/CategoriesList.vue";
+import MainKeyboard from "../components/keyboard/MainKeyboard.vue";
+import RecordList from "../components/record/RecordList.vue";
+import KeyboardDisplay from "../components/keyboard/KeyboardDisplay.vue";
+import { keyboardStore } from "../stores/keyboard";
+import { mapActions, mapState } from "pinia";
+export default {
+  components: { CategoriesList, MainKeyboard, RecordList, KeyboardDisplay },
+  mounted() {
+    console.log("workspace mounted");
+  },
+  methods: {
+    ...mapActions(keyboardStore, ['emitKey', 'hasKey']),
+    dispatchKeyEvent: function (event) {
+      console.log('HAS KEY', `${event.key}`.toUpperCase(), this.hasKey(`${event.key}`.toUpperCase()))
+      this.emitKey(`${event.key}`.toUpperCase());
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 .workspace {

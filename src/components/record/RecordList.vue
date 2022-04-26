@@ -5,8 +5,8 @@
   </div>
 </template>
 <script>
-import CurrentRecord from './CurrentRecord.vue'
+import CurrentRecord from "./CurrentRecord.vue";
 export default {
   components: { CurrentRecord },
-}
+};
 </script>

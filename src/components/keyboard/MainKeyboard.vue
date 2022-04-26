@@ -1,8 +1,8 @@
 <script setup>
-import { mapActions } from 'pinia';
-import Button from 'primevue/button';
-import { KEY_TYPES } from '../../config';
-import { keyboardStore } from '../../stores/keyboard';
+import { mapActions } from "pinia";
+import Button from "primevue/button";
+import { KEY_TYPES } from "../../config";
+import { keyboardStore } from "../../stores/keyboard";
 </script>
 <script>
 // const operators = Object.freeze([
@@ -10,76 +10,106 @@ import { keyboardStore } from '../../stores/keyboard';
 // ])
 const keyboard = {
   actions: {
-    clear: 'C',
-    equals: '=',
-    backspace: '<-',
-  }
-}
+    clear: "C",
+    equals: "=",
+    backspace: "<-",
+  },
+};
 export default {
   data() {
     return {
       leftValue: 0,
-      operator: '',
+      operator: "",
       rightValue: null,
       result: 0,
       hasResult: false,
       actions: Object.freeze([
-        { name: 'key-clear', value: keyboard.actions.clear, display: 'C', type: 'action' },
-        { name: 'key-return', value: keyboard.actions.backspace, display: '<-', type: 'action' },
-        { name: 'key-equals', value: keyboard.actions.equals, display: '=', type: 'action' },
+        {
+          name: "key-clear",
+          value: keyboard.actions.clear,
+          display: "C",
+          type: "action",
+        },
+        {
+          name: "key-return",
+          value: keyboard.actions.backspace,
+          display: "<-",
+          type: "action",
+        },
+        {
+          name: "key-equals",
+          value: keyboard.actions.equals,
+          display: "=",
+          type: "action",
+        },
       ]),
       keys: Object.freeze([
-        { name: 'key-1', value: 1, display: '1', type: KEY_TYPES.DIGIT },
-        { name: 'key-2', value: 2, display: '2', type: KEY_TYPES.DIGIT },
-        { name: 'key-3', value: 3, display: '3', type: KEY_TYPES.DIGIT },
-        { name: 'key-4', value: 4, display: '4', type: KEY_TYPES.DIGIT },
-        { name: 'key-5', value: 5, display: '5', type: KEY_TYPES.DIGIT },
-        { name: 'key-6', value: 6, display: '6', type: KEY_TYPES.DIGIT },
-        { name: 'key-7', value: 7, display: '7', type: KEY_TYPES.DIGIT },
-        { name: 'key-8', value: 8, display: '8', type: KEY_TYPES.DIGIT },
-        { name: 'key-9', value: 9, display: '9', type: KEY_TYPES.DIGIT },
-        { name: 'key-0', value: 0, display: '0', type: KEY_TYPES.DIGIT },
-        { name: 'key-00', value: 100, display: '00', type: 'multiply' },
-        { name: 'key-000', value: 1000, display: '000', type: 'multiply' },
-        { name: 'key-multiply', value: '*', display: '*', type: KEY_TYPES.OPERATION },
+        { name: "key-1", value: 1, display: "1", type: KEY_TYPES.DIGIT },
+        { name: "key-2", value: 2, display: "2", type: KEY_TYPES.DIGIT },
+        { name: "key-3", value: 3, display: "3", type: KEY_TYPES.DIGIT },
+        { name: "key-4", value: 4, display: "4", type: KEY_TYPES.DIGIT },
+        { name: "key-5", value: 5, display: "5", type: KEY_TYPES.DIGIT },
+        { name: "key-6", value: 6, display: "6", type: KEY_TYPES.DIGIT },
+        { name: "key-7", value: 7, display: "7", type: KEY_TYPES.DIGIT },
+        { name: "key-8", value: 8, display: "8", type: KEY_TYPES.DIGIT },
+        { name: "key-9", value: 9, display: "9", type: KEY_TYPES.DIGIT },
+        { name: "key-0", value: 0, display: "0", type: KEY_TYPES.DIGIT },
+        { name: "key-00", value: 100, display: "00", type: "multiply" },
+        { name: "key-000", value: 1000, display: "000", type: "multiply" },
+        {
+          name: "key-multiply",
+          value: "*",
+          display: "*",
+          type: KEY_TYPES.OPERATION,
+        },
         // { name: 'key-divide', value: '/', display: '/', type: KEY_TYPES.OPERATION },
-        { name: 'key-plus', value: '+', display: '+', type: KEY_TYPES.OPERATION },
+        {
+          name: "key-plus",
+          value: "+",
+          display: "+",
+          type: KEY_TYPES.OPERATION,
+        },
         // { name: 'key-minus', value: '-', display: '-', type: KEY_TYPES.OPERATION },
-      ])
-    }
+      ]),
+    };
+  },
+  mounted(){
+    this.keys.filter(_ => _.type === KEY_TYPES.DIGIT).forEach(key => this.registerKey(`${key.value}`, key))
+  },
+  beforeUnmount(){
+    this.keys.filter(_ => _.type === KEY_TYPES.DIGIT).forEach(key => this.unRegisterKey(`${key.value}`, key))
   },
   methods: {
-    ...mapActions(keyboardStore, ['keyPressed']),
+    ...mapActions(keyboardStore, ["keyPressed", "registerKey", "unRegisterKey"]),
     equals() {
-      this.leftValue = Math.floor(eval(this.displayValue))
-      this.rightValue = null
-      this.operator = ''
-      this.hasResult = true
+      this.leftValue = Math.floor(eval(this.displayValue));
+      this.rightValue = null;
+      this.operator = "";
+      this.hasResult = true;
     },
     clear() {
-      this.leftValue = 0
-      this.rightValue = null
-      this.operator = ''
-      this.hasResult = false
-      this.result = 0
+      this.leftValue = 0;
+      this.rightValue = null;
+      this.operator = "";
+      this.hasResult = false;
+      this.result = 0;
     },
     backspace() {
       if (this.rightValue !== null) {
-        if (this.rightValue <= 9) this.rightValue = null
-        else this.rightValue = Math.floor(this.rightValue / 10)
-      }
-      else if (this.operator !== '') this.operator = ''
-      else this.leftValue = Math.floor(this.leftValue / 10)
-    }
+        if (this.rightValue <= 9) this.rightValue = null;
+        else this.rightValue = Math.floor(this.rightValue / 10);
+      } else if (this.operator !== "") this.operator = "";
+      else this.leftValue = Math.floor(this.leftValue / 10);
+    },
   },
   computed: {
     displayValue() {
-      const r = this.rightValue > 0 ? this.rightValue : ''
-      if (this.operator === '') return `${this.leftValue}`
-      else return `${this.leftValue} ${this.operator} ${r}`
-    }
-  }
-}
+      const r = this.rightValue > 0 ? this.rightValue : "";
+      if (this.operator === "") return `${this.leftValue}`;
+      else return `${this.leftValue} ${this.operator} ${r}`;
+    },
+  },
+};
 </script>
 
 <template>
