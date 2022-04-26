@@ -16,3 +16,21 @@ export const KEY_TYPES = Object.freeze({
   DIGIT: 'DIGIT',
   OPERATION: 'OPERATION',
 })
+
+export const DEFAULT_CATEGORIES = [
+  {
+    name: "Quesos",
+    id: "QUESO",
+    icon: "cheese.png"
+  },
+  {
+    name: "Yogur",
+    id: "YOGUR",
+    icon: "yogur.png"
+  },
+  {
+    name: "Torta",
+    id: "TORTA",
+    icon: "cake.png"
+  },
+]

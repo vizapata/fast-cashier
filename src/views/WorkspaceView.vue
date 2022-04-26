@@ -1,17 +1,23 @@
 <script setup>
+import CategoriesList from '../components/categories/CategoriesList.vue';
 import MainKeyboard from '../components/keyboard/MainKeyboard.vue';
+import RecordList from '../components/record/RecordList.vue';
 import KeyboardDisplay from '../components/keyboard/KeyboardDisplay.vue';
 </script>
 
 <template>
   <main>
     <div class="workspace">
-      <div class="categories-component">categories</div>
+      <div class="categories-component">
+        <CategoriesList />
+      </div>
       <div class="keyboard-component">
         <KeyboardDisplay />
         <MainKeyboard />
       </div>
-      <div class="record-list-component">record list</div>
+      <div class="record-list-component">
+        <RecordList />
+      </div>
       <div class="total-info-component">total info</div>
     </div>
   </main>
@@ -24,11 +30,12 @@ import KeyboardDisplay from '../components/keyboard/KeyboardDisplay.vue';
   display: flex;
   flex-direction: column;
 
-  > div {
+  >div {
     padding: 10px;
     border: solid red 1px;
   }
 }
+
 @media all and (min-width: 800px) {
   .workspace {
     display: grid;
@@ -39,11 +46,12 @@ import KeyboardDisplay from '../components/keyboard/KeyboardDisplay.vue';
     .keyboard-component {
       grid-row: 1 / span 2;
     }
+
     .keyboard-component {
       grid-column-start: 3;
     }
 
-    > div {
+    >div {
       padding: 10px;
       border: solid red 1px;
     }

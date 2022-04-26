@@ -6,7 +6,7 @@ import Image from 'primevue/image';
 <template>
   <Toolbar>
     <template #start>
-      <Image class="app-logo" src="public/img/cashier.png" alt="Fast cashier" />
+      <Image class="app-logo" src="/img/cashier.png" alt="Fast cashier" />
       <span class="app-title">Fast cashier App</span>
     </template>
   </Toolbar>

@@ -26,24 +26,33 @@ const operatorPressed = (stack, key) => {
     stack.push(key.value)
   }
 }
+// const categoryPressed = (key) => {
+//   category = key
+// }
 
 export const keyboardStore = defineStore({
   id: "keyboardStore",
   state: () => ({
-    stack: [0]
+    stack: [0],
+    category: {}
   }),
   getters: {
     hasOperator: (state) => state.operator !== null,
-    display: (state) => state.stack.join(' ')
+    display: (state) => state.stack.join(' '),
+    current: (state) => state[0]
   },
   actions: {
     keyPressed(key) {
+      console.log("key pressed: ", key)
       switch (key.type) {
         case KEY_TYPES.DIGIT:
           digitPressed(this.stack, key)
           break
         case KEY_TYPES.OPERATION:
           operatorPressed(this.stack, key)
+          break
+        case KEY_TYPES.CATEGORY:
+          this.category = key
           break
         default:
           break;
