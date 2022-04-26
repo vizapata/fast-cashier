@@ -11,7 +11,7 @@ export default {
   props: {
     category: {
       type: Object,
-      default: () => { },
+      default: () => {},
       required: true,
     },
   },
@@ -35,11 +35,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(keyboardStore, [
-      "emitKey",
-      "registerKey",
-      "unRegisterKey",
-    ]),
+    ...mapActions(keyboardStore, ["emitKey", "registerKey", "unRegisterKey"]),
     dispatchKeyEvent: function () {
       if (this.hasShortcut) this.emitKey(this.category.shortcut);
     },

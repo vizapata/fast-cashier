@@ -57,10 +57,10 @@ export const keyboardStore = defineStore({
       }
     },
     registerKey(key, value) {
-      this.registeredKeys.set(key, value);
+      this.registeredKeys.set(`${key}`.toUpperCase(), value);
     },
     unRegisterKey(key) {
-      this.registeredKeys.delete(key);
+      this.registeredKeys.delete(`${key}`.toUpperCase());
     },
     clearKeys() {
       this.registeredKeys.clear();
@@ -69,10 +69,11 @@ export const keyboardStore = defineStore({
       return this.registeredKeys.keys;
     },
     hasKey(key) {
-      return this.registeredKeys.has(key);
+      return this.registeredKeys.has(`${key}`.toUpperCase());
     },
     emitKey(key) {
-      this.hasKey(key) && this.keyPressed(this.registeredKeys.get(key));
+      this.hasKey(`${key}`.toUpperCase()) &&
+        this.keyPressed(this.registeredKeys.get(`${key}`.toUpperCase()));
     },
   },
 });

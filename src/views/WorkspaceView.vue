@@ -22,17 +22,17 @@ import MainKeyboard from "../components/keyboard/MainKeyboard.vue";
 import RecordList from "../components/record/RecordList.vue";
 import KeyboardDisplay from "../components/keyboard/KeyboardDisplay.vue";
 import { keyboardStore } from "../stores/keyboard";
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 export default {
   components: { CategoriesList, MainKeyboard, RecordList, KeyboardDisplay },
   mounted() {
     console.log("workspace mounted");
   },
   methods: {
-    ...mapActions(keyboardStore, ['emitKey', 'hasKey']),
+    ...mapActions(keyboardStore, ["emitKey", "hasKey"]),
     dispatchKeyEvent: function (event) {
-      console.log('HAS KEY', `${event.key}`.toUpperCase(), this.hasKey(`${event.key}`.toUpperCase()))
-      this.emitKey(`${event.key}`.toUpperCase());
+      console.log("HAS KEY", `${event.key}`, this.hasKey(event.key));
+      this.emitKey(event.key);
     },
   },
 };
@@ -45,7 +45,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  >div {
+  > div {
     padding: 10px;
     border: solid red 1px;
   }
@@ -66,7 +66,7 @@ export default {
       grid-column-start: 3;
     }
 
-    >div {
+    > div {
       padding: 10px;
       border: solid red 1px;
     }

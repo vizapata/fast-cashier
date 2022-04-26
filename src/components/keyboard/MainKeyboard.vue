@@ -10,9 +10,9 @@ import { keyboardStore } from "../../stores/keyboard";
 // ])
 const keyboard = {
   actions: {
-    clear: "C",
-    equals: "=",
-    backspace: "<-",
+    clear: "DELETE",
+    equals: "ENTER",
+    backspace: "BACKSPACE",
   },
 };
 export default {
@@ -73,14 +73,20 @@ export default {
       ]),
     };
   },
-  mounted(){
-    this.keys.filter(_ => _.type === KEY_TYPES.DIGIT).forEach(key => this.registerKey(`${key.value}`, key))
+  mounted() {
+    this.actions.forEach((key) => this.registerKey(key.value, key));
+    this.keys.forEach((key) => this.registerKey(key.value, key));
   },
-  beforeUnmount(){
-    this.keys.filter(_ => _.type === KEY_TYPES.DIGIT).forEach(key => this.unRegisterKey(`${key.value}`, key))
+  beforeUnmount() {
+    this.keys.forEach((key) => this.unRegisterKey(key.value, key));
+    this.actions.forEach((key) => this.unRegisterKey(key.value, key));
   },
   methods: {
-    ...mapActions(keyboardStore, ["keyPressed", "registerKey", "unRegisterKey"]),
+    ...mapActions(keyboardStore, [
+      "keyPressed",
+      "registerKey",
+      "unRegisterKey",
+    ]),
     equals() {
       this.leftValue = Math.floor(eval(this.displayValue));
       this.rightValue = null;
@@ -142,10 +148,12 @@ export default {
   padding: 30px 0;
   font-size: 2em;
 }
+
 .keyboard {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   .key {
     padding: 10px;
     text-align: center;
@@ -157,6 +165,7 @@ export default {
     color: darkgray;
     background-color: #000;
     font-weight: bolder;
+
     &:hover {
       color: darkgray;
     }
@@ -174,18 +183,21 @@ export default {
     .key-multiply {
       grid-row-start: 1;
     }
+
     .key-4,
     .key-5,
     .key-6,
     .key-divide {
       grid-row-start: 2;
     }
+
     .key-1,
     .key-2,
     .key-3,
     .key-plus {
       grid-row-start: 3;
     }
+
     .key-0,
     .key-00,
     .key-000,
@@ -198,6 +210,7 @@ export default {
       grid-row-end: span 2;
     }
   }
+
   .actions {
     @extend .numbers;
     grid-template-rows: 1fr;
