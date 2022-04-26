@@ -11,8 +11,9 @@ import { keyboardStore } from '../../stores/keyboard'
 export default {
   computed: {
     ...mapState(keyboardStore, ['current', 'category']),
-    formattedDisplay: function(){
-      return `$ 0`
+    formattedDisplay: function () {
+      const n = parseInt(this.current).toLocaleString('es-CO')
+      return `$ ${n}`
     }
   }
 }

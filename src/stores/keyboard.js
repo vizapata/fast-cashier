@@ -39,7 +39,7 @@ export const keyboardStore = defineStore({
   getters: {
     hasOperator: (state) => state.operator !== null,
     display: (state) => state.stack.join(' '),
-    current: (state) => state[0]
+    current: (state) => state.stack[0]
   },
   actions: {
     keyPressed(key) {
