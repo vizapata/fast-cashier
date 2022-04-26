@@ -17,7 +17,16 @@ export const KEY_TYPES = Object.freeze({
   CATEGORY: "CATEGORY",
   DIGIT: "DIGIT",
   OPERATION: "OPERATION",
+  ACTION: "ACTION",
 });
+
+export const ALLOWED_ACTIONS = {
+  DELETE: "DELETE",
+  ENTER: "ENTER",
+  BACKSPACE: "BACKSPACE",
+  HUNDRED: "00",
+  THOUSAND: "000",
+};
 
 export const DEFAULT_CATEGORIES = [
   {

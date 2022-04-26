@@ -1,21 +1,10 @@
-<script setup>
+<script>
 import { mapActions } from "pinia";
 import Button from "primevue/button";
-import { KEY_TYPES } from "../../config";
+import { ALLOWED_ACTIONS, KEY_TYPES } from "../../config";
 import { keyboardStore } from "../../stores/keyboard";
-</script>
-<script>
-// const operators = Object.freeze([
-//   '*', '/', '-', '+'
-// ])
-const keyboard = {
-  actions: {
-    clear: "DELETE",
-    equals: "ENTER",
-    backspace: "BACKSPACE",
-  },
-};
 export default {
+  components: { Button },
   data() {
     return {
       leftValue: 0,
@@ -26,21 +15,21 @@ export default {
       actions: Object.freeze([
         {
           name: "key-clear",
-          value: keyboard.actions.clear,
+          value: ALLOWED_ACTIONS.DELETE,
           display: "C",
-          type: "action",
+          type: KEY_TYPES.ACTION,
         },
         {
           name: "key-return",
-          value: keyboard.actions.backspace,
+          value: ALLOWED_ACTIONS.BACKSPACE,
           display: "<-",
-          type: "action",
+          type: KEY_TYPES.ACTION,
         },
         {
           name: "key-equals",
-          value: keyboard.actions.equals,
+          value: ALLOWED_ACTIONS.ENTER,
           display: "=",
-          type: "action",
+          type: KEY_TYPES.ACTION,
         },
       ]),
       keys: Object.freeze([
@@ -54,22 +43,30 @@ export default {
         { name: "key-8", value: 8, display: "8", type: KEY_TYPES.DIGIT },
         { name: "key-9", value: 9, display: "9", type: KEY_TYPES.DIGIT },
         { name: "key-0", value: 0, display: "0", type: KEY_TYPES.DIGIT },
-        { name: "key-00", value: 100, display: "00", type: "multiply" },
-        { name: "key-000", value: 1000, display: "000", type: "multiply" },
+        {
+          name: "key-00",
+          value: ALLOWED_ACTIONS.HUNDRED,
+          display: ALLOWED_ACTIONS.HUNDRED,
+          type: KEY_TYPES.ACTION,
+        },
+        {
+          name: "key-000",
+          value: ALLOWED_ACTIONS.THOUSAND,
+          display: ALLOWED_ACTIONS.THOUSAND,
+          type: KEY_TYPES.ACTION,
+        },
         {
           name: "key-multiply",
           value: "*",
           display: "*",
           type: KEY_TYPES.OPERATION,
         },
-        // { name: 'key-divide', value: '/', display: '/', type: KEY_TYPES.OPERATION },
         {
           name: "key-plus",
           value: "+",
           display: "+",
           type: KEY_TYPES.OPERATION,
         },
-        // { name: 'key-minus', value: '-', display: '-', type: KEY_TYPES.OPERATION },
       ]),
     };
   },

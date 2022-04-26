@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ALLOWED_OPERATORS, KEY_TYPES } from "../config";
+import { ALLOWED_OPERATORS, KEY_TYPES, ALLOWED_ACTIONS } from "../config";
 
 const isAllowedOperator = (operator) =>
   ALLOWED_OPERATORS.some((_) => _ === operator);
@@ -15,15 +15,64 @@ const digitPressed = (stack, key) => {
     stack.push(applyNumericKey(top, key));
   }
 };
+const clearStack = (stack, result) => {
+  while (stack.length > 0) {
+    stack.pop();
+  }
+  stack.push(result);
+};
+
+const evalStack = (stack) => clearStack(stack, eval(stack.join(" ")));
+
 const operatorPressed = (stack, key) => {
   const top = stack.pop();
   if (isAllowedOperator(top)) stack.push(key.value);
   else {
     stack.push(top);
-    const result = eval(stack.join(" "));
-    while (stack.length > 0) stack.pop();
-    stack.push(result);
+    evalStack(stack);
     stack.push(key.value);
+  }
+};
+
+const backspaceAction = (stack) => {
+  const top = stack.pop();
+  if (isAllowedOperator(top) || (top < 10 && stack.length > 1)) return;
+  const stringNumber = `0${top}`;
+  stack.push(parseInt(stringNumber.substring(0, stringNumber.length - 1)));
+};
+
+const addZeroToStack = (stack, zeros) => {
+  const top = stack.pop();
+  let number = 0;
+  if (isAllowedOperator(top)) {
+    stack.push(top);
+  } else {
+    number = top;
+  }
+  console.log(
+    `Number to add ${number} - ${zeros} = `,
+    parseInt(`${number}${zeros}`)
+  );
+  stack.push(parseInt(`${number}${zeros}`));
+};
+const executeAction = (stack, action) => {
+  console.log("action", action);
+  switch (action) {
+    case ALLOWED_ACTIONS.DELETE:
+      clearStack(stack, 0);
+      break;
+    case ALLOWED_ACTIONS.BACKSPACE:
+      backspaceAction(stack);
+      break;
+    case ALLOWED_ACTIONS.ENTER:
+      evalStack(stack);
+      break;
+    case ALLOWED_ACTIONS.HUNDRED:
+    case ALLOWED_ACTIONS.THOUSAND:
+      addZeroToStack(stack, action);
+      break;
+    default:
+      break;
   }
 };
 
@@ -49,6 +98,9 @@ export const keyboardStore = defineStore({
         case KEY_TYPES.OPERATION:
           operatorPressed(this.stack, key);
           break;
+        case KEY_TYPES.ACTION:
+          executeAction(this.stack, key.value);
+          break;
         case KEY_TYPES.CATEGORY:
           this.category = key;
           break;
@@ -72,6 +124,7 @@ export const keyboardStore = defineStore({
       return this.registeredKeys.has(`${key}`.toUpperCase());
     },
     emitKey(key) {
+      console.log("Emiting KEY", key);
       this.hasKey(`${key}`.toUpperCase()) &&
         this.keyPressed(this.registeredKeys.get(`${key}`.toUpperCase()));
     },
