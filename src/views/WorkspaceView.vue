@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="workspace" @keyup="dispatchKeyEvent" ref="workspace">
+    <div class="workspace">
       <div class="categories-component">
         <CategoriesList />
       </div>
@@ -25,6 +25,12 @@ import { keyboardStore } from "../stores/keyboard";
 import { mapActions } from "pinia";
 export default {
   components: { CategoriesList, MainKeyboard, RecordList, KeyboardDisplay },
+  mounted() {
+    window.addEventListener("keyup", this.dispatchKeyEvent);
+  },
+  beforeUnmount() {
+    window.removeEventListener("keyup", this.dispatchKeyEvent);
+  },
   methods: {
     ...mapActions(keyboardStore, ["emitKey", "hasKey"]),
     dispatchKeyEvent: function (event) {
@@ -41,7 +47,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  > div {
+  >div {
     padding: 10px;
     border: solid red 1px;
   }
@@ -62,7 +68,7 @@ export default {
       grid-column-start: 3;
     }
 
-    > div {
+    >div {
       padding: 10px;
       border: solid red 1px;
     }

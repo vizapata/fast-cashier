@@ -1,10 +1,10 @@
 <script>
 import { mapActions } from "pinia";
-import Button from "primevue/button";
 import { ALLOWED_ACTIONS, KEY_TYPES } from "../../config";
 import { keyboardStore } from "../../stores/keyboard";
+import KeyboardButton from "./KeyboardButton.vue";
 export default {
-  components: { Button },
+  components: { KeyboardButton },
   data() {
     return {
       leftValue: 0,
@@ -84,26 +84,6 @@ export default {
       "registerKey",
       "unRegisterKey",
     ]),
-    equals() {
-      this.leftValue = Math.floor(eval(this.displayValue));
-      this.rightValue = null;
-      this.operator = "";
-      this.hasResult = true;
-    },
-    clear() {
-      this.leftValue = 0;
-      this.rightValue = null;
-      this.operator = "";
-      this.hasResult = false;
-      this.result = 0;
-    },
-    backspace() {
-      if (this.rightValue !== null) {
-        if (this.rightValue <= 9) this.rightValue = null;
-        else this.rightValue = Math.floor(this.rightValue / 10);
-      } else if (this.operator !== "") this.operator = "";
-      else this.leftValue = Math.floor(this.leftValue / 10);
-    },
   },
   computed: {
     displayValue() {
@@ -118,20 +98,22 @@ export default {
 <template>
   <div class="keyboard">
     <div class="actions">
-      <Button
+      <KeyboardButton
         v-for="key in this.actions"
         :key="key.name"
         :class="`p-button-outlined p-button-secondary ${key.name}`"
         :label="key.display"
+        :button="key"
         @click="keyPressed(key)"
       />
     </div>
     <div class="numbers">
-      <Button
+      <KeyboardButton
         v-for="key in this.keys"
         :key="key.name"
         :class="`p-button-outlined p-button-secondary ${key.name}`"
         :label="key.display"
+        :button="key"
         @click="keyPressed(key)"
       />
     </div>
