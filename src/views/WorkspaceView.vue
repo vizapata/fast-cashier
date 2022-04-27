@@ -25,13 +25,9 @@ import { keyboardStore } from "../stores/keyboard";
 import { mapActions } from "pinia";
 export default {
   components: { CategoriesList, MainKeyboard, RecordList, KeyboardDisplay },
-  mounted() {
-    console.log("workspace mounted");
-  },
   methods: {
     ...mapActions(keyboardStore, ["emitKey", "hasKey"]),
     dispatchKeyEvent: function (event) {
-      console.log("HAS KEY", `${event.key}`, this.hasKey(event.key));
       this.emitKey(event.key);
     },
   },

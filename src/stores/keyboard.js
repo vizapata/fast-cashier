@@ -49,14 +49,9 @@ const addZeroToStack = (stack, zeros) => {
   } else {
     number = top;
   }
-  console.log(
-    `Number to add ${number} - ${zeros} = `,
-    parseInt(`${number}${zeros}`)
-  );
   stack.push(parseInt(`${number}${zeros}`));
 };
 const executeAction = (stack, action) => {
-  console.log("action", action);
   switch (action) {
     case ALLOWED_ACTIONS.DELETE:
       clearStack(stack, 0);
@@ -90,7 +85,6 @@ export const keyboardStore = defineStore({
   },
   actions: {
     keyPressed(key) {
-      // console.log("key pressed: ", key);
       switch (key.type) {
         case KEY_TYPES.DIGIT:
           digitPressed(this.stack, key);
@@ -124,7 +118,6 @@ export const keyboardStore = defineStore({
       return this.registeredKeys.has(`${key}`.toUpperCase());
     },
     emitKey(key) {
-      console.log("Emiting KEY", key);
       this.hasKey(`${key}`.toUpperCase()) &&
         this.keyPressed(this.registeredKeys.get(`${key}`.toUpperCase()));
     },
