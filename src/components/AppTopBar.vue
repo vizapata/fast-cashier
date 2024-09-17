@@ -1,6 +1,6 @@
 <script setup>
-import Toolbar from "primevue/toolbar";
-import Image from "primevue/image";
+import Toolbar from 'primevue/toolbar'
+import Image from 'primevue/image'
 </script>
 
 <template>

@@ -1,12 +1,12 @@
 <script>
-import { mapState } from "pinia";
-import { keyboardStore } from "../../stores/keyboard";
+import { mapState } from 'pinia'
+import { keyboardStore } from '../../stores/keyboard'
 export default {
-  name: "KeyboardDisplay",
+  name: 'KeyboardDisplay',
   computed: {
-    ...mapState(keyboardStore, ["display"]),
-  },
-};
+    ...mapState(keyboardStore, ['display'])
+  }
+}
 </script>
 <template>
   <div class="display">{{ display }}</div>

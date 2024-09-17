@@ -6,17 +6,17 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
-import { keyboardStore } from "../../stores/keyboard";
+import { mapState } from 'pinia'
+import { keyboardStore } from '../../stores/keyboard'
 export default {
   computed: {
-    ...mapState(keyboardStore, ["current", "category"]),
+    ...mapState(keyboardStore, ['current', 'category']),
     formattedDisplay: function () {
-      const n = parseInt(this.current).toLocaleString("es-CO");
-      return `$ ${n}`;
-    },
-  },
-};
+      const n = parseInt(this.current).toLocaleString('es-CO')
+      return `$ ${n}`
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
