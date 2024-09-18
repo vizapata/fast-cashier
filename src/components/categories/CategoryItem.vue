@@ -3,51 +3,55 @@
     <img :src="`/img/${category.icon}`" :alt="category.name" />
   </div>
 </template>
-<script>
-import { mapActions } from 'pinia'
-import { KEY_TYPES } from '../../domain/config'
-import { keyboardStore } from '../../stores/keyboard'
-export default {
-  props: {
-    category: {
-      type: Object,
-      default: () => {},
-      required: true
-    }
-  },
-  mounted() {
-    if (this.hasShortcut) this.registerKey(this.category.shortcut, this.key)
-  },
-  beforeUnmount() {
-    if (this.hasShortcut) this.unRegisterKey(this.category.shortcut)
-  },
-  computed: {
-    hasShortcut: function () {
-      return this.category && this.category.shortcut
-    },
-    key: function () {
-      return {
-        name: this.category.name,
-        value: this.category.id,
-        display: this.category.icon,
-        type: KEY_TYPES.CATEGORY
-      }
-    }
-  },
-  methods: {
-    ...mapActions(keyboardStore, ['emitKey', 'registerKey', 'unRegisterKey']),
-    dispatchKeyEvent: function () {
-      if (this.hasShortcut) this.emitKey(this.category.shortcut)
-    }
-  }
+<script setup lang="ts">
+import type { Category } from '@/domain/category'
+import { KEY_TYPES } from '@/domain/config'
+import { useKeyboardStore } from '@/stores/keyboard'
+import { computed, onBeforeMount, onMounted, type Ref } from 'vue'
+import type { KeyMetadata } from '@/domain/key-metadata'
+
+const props = defineProps<{ category: Category }>()
+
+const keyboardStore = useKeyboardStore()
+const hasShortcut: Ref<boolean> = computed(() =>
+  props.category && props.category.shortcut ? true : false
+)
+const key: Ref<KeyMetadata> = computed(() => ({
+  name: props.category.name,
+  value: props.category.id,
+  display: props.category.icon,
+  type: KEY_TYPES.CATEGORY
+}))
+
+const dispatchKeyEvent = () => {
+  if (hasShortcut.value) keyboardStore.emitKey(props.category.shortcut)
 }
+
+onMounted(() => {
+  if (hasShortcut.value) {
+    keyboardStore.registerKey(props.category.shortcut, key.value)
+  }
+})
+
+onBeforeMount(() => {
+  if (hasShortcut.value) {
+    keyboardStore.unRegisterKey(props.category.shortcut)
+  }
+})
 </script>
 <style lang="scss" scoped>
-img {
-  max-width: 150px;
+.category-display-item {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 
-  &:hover {
-    filter: sepia(0.5);
+  img {
+    max-width: 150px;
+    width: 100%;
+
+    &:hover {
+      filter: sepia(0.3);
+    }
   }
 }
 </style>

@@ -100,7 +100,7 @@ export const keyboardStore = defineStore('keyboardStore', {
           break
       }
     },
-    registerKey(key: string, value: string) {
+    registerKey(key: string, value: KeyMetadata) {
       this.registeredKeys.set(`${key}`.toUpperCase(), value)
     },
     unRegisterKey(key: string) {
