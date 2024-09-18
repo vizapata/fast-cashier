@@ -70,8 +70,7 @@ const executeAction = (stack: any, action: string) => {
   }
 }
 
-export const keyboardStore = defineStore({
-  id: 'keyboardStore',
+export const keyboardStore = defineStore('keyboardStore', {
   state: () => ({
     stack: [0],
     category: {},
@@ -122,3 +121,6 @@ export const keyboardStore = defineStore({
     }
   }
 })
+
+const useKeyboardStore = keyboardStore
+export { useKeyboardStore }
