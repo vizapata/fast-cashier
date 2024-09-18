@@ -3,6 +3,7 @@
     <img :src="`/img/${category.icon}`" :alt="category.name" />
   </div>
 </template>
+
 <script setup lang="ts">
 import type { Category } from '@/domain/category'
 import { KEY_TYPES } from '@/domain/config'

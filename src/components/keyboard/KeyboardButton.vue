@@ -4,8 +4,10 @@
   </div>
 </template>
 
-<script setup>
-defineProps({ button: Object })
+<script setup lang="ts">
+import type { KeyMetadata } from '@/domain/key-metadata'
+
+defineProps<{ button: KeyMetadata }>()
 </script>
 
 <style scoped lang="scss">
@@ -21,6 +23,7 @@ defineProps({ button: Object })
   border-radius: 5px;
   background: #abc;
   user-select: none;
+
   &:hover {
     background: rgb(128, 170, 211);
     border: solid 1px #35343aaa;

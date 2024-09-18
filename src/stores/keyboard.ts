@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ALLOWED_OPERATORS, KEY_TYPES, ALLOWED_ACTIONS } from '@/domain/config'
+import type { KeyMetadata } from '@/domain/key-metadata'
 
 const isAllowedOperator = (operator: any) => ALLOWED_OPERATORS.some((_) => _ === operator)
 
@@ -82,7 +83,7 @@ export const keyboardStore = defineStore('keyboardStore', {
     current: (state) => state.stack[0]
   },
   actions: {
-    keyPressed(key: any) {
+    keyPressed(key: KeyMetadata) {
       switch (key.type) {
         case KEY_TYPES.DIGIT:
           digitPressed(this.stack, key)
