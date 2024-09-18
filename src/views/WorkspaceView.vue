@@ -26,7 +26,7 @@ import { onMounted, onBeforeUnmount } from 'vue'
 
 const keyboardStore = useKeyboardStore()
 
-const dispatchKeyEvent = (event) => {
+const dispatchKeyEvent = (event: KeyboardEvent) => {
   keyboardStore.emitKey(event.key)
 }
 
@@ -45,7 +45,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
 
-  > div {
+  >div {
     padding: 10px;
     border: solid red 1px;
   }
@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
       grid-column-start: 3;
     }
 
-    > div {
+    >div {
       padding: 10px;
       border: solid red 1px;
     }
