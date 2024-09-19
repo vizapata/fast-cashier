@@ -40,6 +40,7 @@ onBeforeMount(() => {
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .category-display-item {
   display: flex;
