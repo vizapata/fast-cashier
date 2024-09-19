@@ -74,8 +74,8 @@ const executeAction = (stack: any, action: string) => {
 export const keyboardStore = defineStore('keyboardStore', {
   state: () => ({
     stack: [0],
-    category: {},
-    registeredKeys: new Map()
+    category: {} as KeyMetadata,
+    registeredKeys: new Map() as Map<string, KeyMetadata>
   }),
   getters: {
     hasOperator: (state: any) => state.operator !== null,
@@ -117,8 +117,10 @@ export const keyboardStore = defineStore('keyboardStore', {
       return this.registeredKeys.has(`${key}`.toUpperCase())
     },
     emitKey(key: string) {
-      this.hasKey(`${key}`.toUpperCase()) &&
-        this.keyPressed(this.registeredKeys.get(`${key}`.toUpperCase()))
+      const k: KeyMetadata | undefined = this.registeredKeys.get(`${key}`.toUpperCase())
+      if (k !== undefined) {
+        this.keyPressed(k)
+      }
     }
   }
 })
