@@ -1,8 +1,3 @@
-<script setup>
-import Toolbar from 'primevue/toolbar'
-import Image from 'primevue/image'
-</script>
-
 <template>
   <Toolbar>
     <template #start>
@@ -11,14 +6,22 @@ import Image from 'primevue/image'
     </template>
   </Toolbar>
 </template>
+
+<script setup>
+import Toolbar from 'primevue/toolbar'
+import Image from 'primevue/image'
+</script>
+
 <style lang="scss">
 .app-logo {
   margin-right: 10px;
   max-height: 50px;
+
   img {
     max-height: 50px;
   }
 }
+
 .app-title {
   color: #fff;
 }
