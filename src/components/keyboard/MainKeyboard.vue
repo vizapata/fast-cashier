@@ -24,10 +24,10 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeMount, onMounted } from 'vue'
 import { ALLOWED_ACTIONS, KEY_TYPES } from '@/domain/config'
 import { useKeyboardStore } from '@/stores/keyboard'
 import KeyboardButton from '@/components/keyboard/KeyboardButton.vue'
-import { onBeforeMount, onMounted } from 'vue'
 import type { KeyMetadata } from '@/domain/key-metadata'
 
 const keyboardStore = useKeyboardStore()
@@ -53,16 +53,16 @@ const actions: Array<KeyMetadata> = [
   }
 ]
 const keys: Array<KeyMetadata> = [
-  { name: 'key-1', value: '1', display: '1', type: KEY_TYPES.DIGIT },
-  { name: 'key-2', value: '2', display: '2', type: KEY_TYPES.DIGIT },
-  { name: 'key-3', value: '3', display: '3', type: KEY_TYPES.DIGIT },
-  { name: 'key-4', value: '4', display: '4', type: KEY_TYPES.DIGIT },
-  { name: 'key-5', value: '5', display: '5', type: KEY_TYPES.DIGIT },
-  { name: 'key-6', value: '6', display: '6', type: KEY_TYPES.DIGIT },
-  { name: 'key-7', value: '7', display: '7', type: KEY_TYPES.DIGIT },
-  { name: 'key-8', value: '8', display: '8', type: KEY_TYPES.DIGIT },
-  { name: 'key-9', value: '9', display: '9', type: KEY_TYPES.DIGIT },
-  { name: 'key-0', value: '0', display: '0', type: KEY_TYPES.DIGIT },
+  { name: 'key-1', value: 1, display: '1', type: KEY_TYPES.DIGIT },
+  { name: 'key-2', value: 2, display: '2', type: KEY_TYPES.DIGIT },
+  { name: 'key-3', value: 3, display: '3', type: KEY_TYPES.DIGIT },
+  { name: 'key-4', value: 4, display: '4', type: KEY_TYPES.DIGIT },
+  { name: 'key-5', value: 5, display: '5', type: KEY_TYPES.DIGIT },
+  { name: 'key-6', value: 6, display: '6', type: KEY_TYPES.DIGIT },
+  { name: 'key-7', value: 7, display: '7', type: KEY_TYPES.DIGIT },
+  { name: 'key-8', value: 8, display: '8', type: KEY_TYPES.DIGIT },
+  { name: 'key-9', value: 9, display: '9', type: KEY_TYPES.DIGIT },
+  { name: 'key-0', value: 0, display: '0', type: KEY_TYPES.DIGIT },
   {
     name: 'key-00',
     value: ALLOWED_ACTIONS.HUNDRED,
