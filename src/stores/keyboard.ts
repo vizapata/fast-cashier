@@ -3,28 +3,29 @@ import { ALLOWED_OPERATORS, KEY_TYPES, ALLOWED_ACTIONS } from '@/domain/config'
 import type { KeyMetadata } from '@/domain/key-metadata'
 
 const DEFAULT_STACK_VALUE = 0
-const isAllowedOperator = (operator: any) => ALLOWED_OPERATORS.some((_) => _ === operator)
-const applyNumericKey = (number: number, key: any) => number * 10 + key.value
+const isAllowedOperator = (operator: string | number) =>
+  ALLOWED_OPERATORS.some((_) => _ === operator)
+const applyNumericKey = (number: number, key: KeyMetadata) => number * 10 + (key.value as number)
 
-const digitPressed = (stack: Array<number>, key: any) => {
+const digitPressed = (stack: Array<number | string>, key: KeyMetadata) => {
   const top = stack.pop() ?? DEFAULT_STACK_VALUE
-  if (isAllowedOperator(top)) {
+  if (isAllowedOperator(top as string)) {
     stack.push(top)
     stack.push(key.value)
   } else {
-    stack.push(applyNumericKey(top, key))
+    stack.push(applyNumericKey(top as number, key))
   }
 }
-const clearStack = (stack: Array<number>, result: any) => {
+const clearStack = (stack: Array<number | string>, result: number) => {
   while (stack.length > 0) {
     stack.pop()
   }
   stack.push(result)
 }
 
-const evalStack = (stack: Array<number>) => clearStack(stack, eval(stack.join(' ')))
+const evalStack = (stack: Array<number | string>) => clearStack(stack, eval(stack.join(' ')))
 
-const operatorPressed = (stack: Array<number>, key: any) => {
+const operatorPressed = (stack: Array<number | string>, key: KeyMetadata) => {
   const top = stack.pop() ?? DEFAULT_STACK_VALUE
   if (isAllowedOperator(top)) stack.push(key.value)
   else {
@@ -34,16 +35,16 @@ const operatorPressed = (stack: Array<number>, key: any) => {
   }
 }
 
-const backspaceAction = (stack: Array<number>) => {
+const backspaceAction = (stack: Array<number | string>) => {
   const top = stack.pop() ?? DEFAULT_STACK_VALUE
-  if (isAllowedOperator(top) || (top < 10 && stack.length > 1)) return
-  const stringNumber = `0${top}`
+  if (isAllowedOperator(top) || ((top as number) < 10 && stack.length > 1)) return
+  const stringNumber = `${DEFAULT_STACK_VALUE}${top}`
   stack.push(parseInt(stringNumber.substring(0, stringNumber.length - 1)))
 }
 
-const addZeroToStack = (stack: Array<number>, zeros: any) => {
+const addZeroToStack = (stack: Array<number | string>, zeros: string) => {
   const top = stack.pop() ?? DEFAULT_STACK_VALUE
-  let number = DEFAULT_STACK_VALUE
+  let number: number | string = DEFAULT_STACK_VALUE
   if (isAllowedOperator(top)) {
     stack.push(top)
   } else {
@@ -51,7 +52,7 @@ const addZeroToStack = (stack: Array<number>, zeros: any) => {
   }
   stack.push(parseInt(`${number}${zeros}`))
 }
-const executeAction = (stack: Array<number>, action: string) => {
+const executeAction = (stack: Array<number | string>, action: string) => {
   switch (action) {
     case ALLOWED_ACTIONS.DELETE:
       clearStack(stack, DEFAULT_STACK_VALUE)
@@ -73,12 +74,11 @@ const executeAction = (stack: Array<number>, action: string) => {
 
 export const keyboardStore = defineStore('keyboardStore', {
   state: () => ({
-    stack: [DEFAULT_STACK_VALUE] as Array<number>,
+    stack: [DEFAULT_STACK_VALUE] as Array<number | string>,
     category: {} as KeyMetadata,
     registeredKeys: new Map() as Map<string, KeyMetadata>
   }),
   getters: {
-    hasOperator: (state: any) => state.operator !== null,
     display: (state) => state.stack.join(' '),
     current: (state) => state.stack[0]
   },
