@@ -31,13 +31,48 @@ describe('Not Empty Stack', () => {
     stack.push('top item')
 
     expect(stack.peek()).toBe('top item')
+    expect(stack.values()).toEqual(['test', 'top item'])
+    expect(stack.head()).toBe('test')
   })
 
   it('Peek returns top value from without popping', () => {
     const stack = new NotEmptyStack<string>('test')
     stack.push('top item')
 
+    expect(stack.isEmpty()).toBe(false)
     expect(stack.peek()).toBe('top item')
     expect(stack.size()).toBe(2)
+    expect(stack.values()).toEqual(['test', 'top item'])
+    expect(stack.head()).toBe('test')
+  })
+
+  it('Values method returns the list of items', () => {
+    const stack = new NotEmptyStack<string>('test')
+    stack.push('stack')
+    stack.push('values')
+
+    expect(stack.isEmpty()).toBe(false)
+    expect(stack.size()).toBe(3)
+    expect(stack.values()).toEqual(['test', 'stack', 'values'])
+    expect(stack.head()).toBe('test')
+  })
+
+  it('Reset restores the stack value to have the passed item', () => {
+    const stack = new NotEmptyStack<string>('test')
+    stack.push('stack')
+    stack.push('values')
+
+    expect(stack.size()).toBe(3)
+    expect(stack.peek()).toBe('values')
+    expect(stack.values()).toEqual(['test', 'stack', 'values'])
+    expect(stack.head()).toBe('test')
+
+    stack.reset('reset')
+
+    expect(stack.isEmpty()).toBe(false)
+    expect(stack.size()).toBe(1)
+    expect(stack.values()).toEqual(['reset'])
+    expect(stack.head()).toBe('reset')
+    expect(stack.peek()).toBe('reset')
   })
 })

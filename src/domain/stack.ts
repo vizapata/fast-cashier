@@ -8,24 +8,50 @@ export interface Stack<T> {
 
 export class NotEmptyStack<T> implements Stack<T> {
   private stack: Array<T> = []
+  private initialValue: T
 
   constructor(initialItem: T) {
-    this.stack.push(initialItem)
+    this.initialValue = initialItem
+    this.clear()
   }
 
   push(item: T): void {
     this.stack.push(item)
   }
+
   pop(): T {
-    return this.size() == 1 ? this.stack[0] : this.stack.pop()!
+    const value = this.stack.pop()!
+    if (this.isEmpty()) {
+      this.clear()
+    }
+    return value
   }
+
   peek(): T {
     return this.stack[this.size() - 1]
   }
+
   size(): number {
     return this.stack.length
   }
+
   isEmpty(): boolean {
     return this.size() == 0
+  }
+
+  values(): T[] {
+    return this.stack
+  }
+
+  clear(): void {
+    this.reset(this.initialValue)
+  }
+
+  reset(value: T): void {
+    this.stack = [value]
+  }
+
+  head(): T {
+    return this.stack[0]
   }
 }

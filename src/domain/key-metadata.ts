@@ -1,6 +1,7 @@
+export type KeyValue = string | number
 export interface KeyMetadata {
   name: string
-  value: string | number
+  value: KeyValue
   display: string
   type: string
 }
