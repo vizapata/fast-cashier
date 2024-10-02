@@ -1,16 +1,12 @@
-<script>
-import { mapState } from "pinia";
-import { keyboardStore } from "../../stores/keyboard";
-export default {
-  name: "KeyboardDisplay",
-  computed: {
-    ...mapState(keyboardStore, ["display"]),
-  },
-};
-</script>
 <template>
-  <div class="display">{{ display }}</div>
+  <div class="display">{{ keyboardStore.display }}</div>
 </template>
+
+<script setup lang="ts">
+import { useKeyboardStore } from '@/stores/keyboard'
+
+const keyboardStore = useKeyboardStore()
+</script>
 
 <style scoped lang="scss">
 .display {

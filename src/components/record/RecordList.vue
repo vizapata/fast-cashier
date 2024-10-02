@@ -4,9 +4,7 @@
     <div>Record List</div>
   </div>
 </template>
-<script>
-import CurrentRecord from "./CurrentRecord.vue";
-export default {
-  components: { CurrentRecord },
-};
+
+<script setup lang="ts">
+import CurrentRecord from './CurrentRecord.vue'
 </script>

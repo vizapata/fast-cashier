@@ -1,22 +1,19 @@
 <template>
   <div class="current-record">
-    <img :src="`/img/${category.display}`" :alt="category.name" />
+    <img :src="`/img/${keyboardStore.category.display}`" :alt="keyboardStore.category.name" />
     <span class="current-input">{{ formattedDisplay }}</span>
   </div>
 </template>
 
-<script>
-import { mapState } from "pinia";
-import { keyboardStore } from "../../stores/keyboard";
-export default {
-  computed: {
-    ...mapState(keyboardStore, ["current", "category"]),
-    formattedDisplay: function () {
-      const n = parseInt(this.current).toLocaleString("es-CO");
-      return `$ ${n}`;
-    },
-  },
-};
+<script setup lang="ts">
+import { useKeyboardStore } from '@/stores/keyboard'
+import { computed, type Ref } from 'vue'
+
+const keyboardStore = useKeyboardStore()
+const formattedDisplay: Ref<string> = computed(() => {
+  const n = keyboardStore.current.toLocaleString('es-CO')
+  return `$ ${n}`
+})
 </script>
 
 <style lang="scss" scoped>

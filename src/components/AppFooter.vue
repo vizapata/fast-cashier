@@ -1,17 +1,14 @@
-<script setup>
-import Image from "primevue/image";
-</script>
 <template>
   <div class="layout-footer">
-    <Image
-      class="app-logo"
-      src="/img/cashier.png"
-      alt="Fast cashier"
-      height="20"
-    />by
+    <Image class="app-logo" src="/img/cashier.png" alt="Fast cashier" height="20" />by
     <span class="font-medium ml-2">Victor Zapata</span>
   </div>
 </template>
+
+<script setup>
+import Image from 'primevue/image'
+</script>
+
 <style scoped>
 .layout-footer {
   position: fixed;
