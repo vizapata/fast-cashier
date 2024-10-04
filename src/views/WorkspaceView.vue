@@ -9,9 +9,13 @@
         <MainKeyboard />
       </div>
       <div class="record-list-component">
+        <CurrentRecord />
         <RecordList />
       </div>
-      <div class="total-info-component">total info</div>
+      <div class="total-info-component">
+        <div>Total: </div>
+        <div class="current-input">{{ formattedTotal }}</div>
+      </div>
     </div>
   </main>
 </template>
@@ -22,9 +26,14 @@ import MainKeyboard from '@/components/keyboard/MainKeyboard.vue'
 import RecordList from '@/components/record/RecordList.vue'
 import KeyboardDisplay from '@/components/keyboard/KeyboardDisplay.vue'
 import { useKeyboardStore } from '@/stores/keyboard'
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, type Ref, computed } from 'vue'
+import CurrentRecord from '@/components/record/CurrentRecord.vue'
+import { useCartStore } from '@/stores/cart'
+import { formatCurrency } from '@/utils/currency'
 
 const keyboardStore = useKeyboardStore()
+const cartStore = useCartStore()
+const formattedTotal: Ref<string> = computed(() => formatCurrency(cartStore.total))
 
 const dispatchKeyEvent = (event: KeyboardEvent) => {
   keyboardStore.emitKey(event.key)
@@ -45,9 +54,15 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
 
-  > div {
+  >div {
     padding: 10px;
     border: solid red 1px;
+  }
+
+  .record-list-component {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 
@@ -66,9 +81,21 @@ onBeforeUnmount(() => {
       grid-column-start: 3;
     }
 
-    > div {
+    >div {
       padding: 10px;
       border: solid red 1px;
+    }
+
+    .total-info-component {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      font-weight: bold;
+      font-size: 1.5em;
+
+      .current-input {
+        justify-self: flex-end;
+        justify-self: flex-end;
+      }
     }
   }
 }

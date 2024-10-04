@@ -1,6 +1,11 @@
 <template>
   <div class="categories-list">
-    <CategoryItem v-for="category in DEFAULT_CATEGORIES" :key="category.id" :category="category" />
+    <CategoryItem
+      v-for="category in DEFAULT_CATEGORIES"
+      :key="category.id"
+      :category="category"
+      icon-only
+    />
   </div>
 </template>
 

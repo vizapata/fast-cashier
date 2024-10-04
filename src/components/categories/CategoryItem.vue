@@ -1,6 +1,9 @@
 <template>
-  <div class="category-display-item" @click="dispatchKeyEvent">
-    <img :src="`/img/${category.icon}`" :alt="category.name" />
+  <div :class="`category-display-item ${iconOnly ? '' : 'with-text'}`" @click="dispatchKeyEvent">
+    <img :src="`/img/${category.icon}`" :class="`${size}`" :alt="category.name" />
+    <div v-if="!iconOnly" class="category-display-label">
+      {{ category.name }}
+    </div>
   </div>
 </template>
 
@@ -11,7 +14,7 @@ import { useKeyboardStore } from '@/stores/keyboard'
 import { computed, onBeforeMount, onMounted, type Ref } from 'vue'
 import type { KeyMetadata } from '@/domain/key-metadata'
 
-const props = defineProps<{ category: Category }>()
+const props = defineProps<{ category: Category; iconOnly: boolean, size?: string }>()
 
 const keyboardStore = useKeyboardStore()
 const hasShortcut: Ref<boolean> = computed(() =>
@@ -47,13 +50,25 @@ onBeforeMount(() => {
   justify-content: center;
   cursor: pointer;
 
+  &.with-text {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    gap: 10px
+  }
+
   img {
     max-width: 150px;
     width: 100%;
+
+    &.small {
+      max-width: 30px;
+    }
 
     &:hover {
       filter: sepia(0.3);
     }
   }
+
 }
 </style>

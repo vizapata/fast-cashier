@@ -1,6 +1,6 @@
 <template>
   <div class="current-record">
-    <img :src="`/img/${keyboardStore.category.display}`" :alt="keyboardStore.category.name" />
+    <CategoryItem :category="category" :icon-only="false" />
     <span class="current-input">{{ formattedDisplay }}</span>
   </div>
 </template>
@@ -8,18 +8,22 @@
 <script setup lang="ts">
 import { useKeyboardStore } from '@/stores/keyboard'
 import { computed, type Ref } from 'vue'
+import CategoryItem from '../categories/CategoryItem.vue'
+import { DEFAULT_CATEGORIES, DEFAULT_CATEGORY } from '@/domain/config'
+import { formatCurrency } from '@/utils/currency';
 
 const keyboardStore = useKeyboardStore()
-const formattedDisplay: Ref<string> = computed(() => {
-  const n = keyboardStore.current.toLocaleString('es-CO')
-  return `$ ${n}`
-})
+const category = computed(
+  () =>
+    DEFAULT_CATEGORIES.find((cat) => cat.id === keyboardStore.category.value) ?? DEFAULT_CATEGORY
+)
+const formattedDisplay: Ref<string> = computed(() => formatCurrency(keyboardStore.value))
 </script>
 
 <style lang="scss" scoped>
 .current-record {
   display: grid;
-  grid-template-columns: 50px 1fr;
+  grid-template-columns: 100px 1fr;
   gap: 20px;
 
   .current-input {

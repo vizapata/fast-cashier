@@ -1,3 +1,5 @@
+import type { Category } from './category'
+
 export interface Symbol {
   name: string
   symbol: string
@@ -27,11 +29,18 @@ export const KEY_TYPES = Object.freeze({
 })
 
 export const ALLOWED_ACTIONS = {
-  DELETE: 'DELETE',
+  DELETE: 'DELETE', // TODO: Rename to CLEAR
   ENTER: 'ENTER',
   BACKSPACE: 'BACKSPACE',
   HUNDRED: '00',
   THOUSAND: '000'
+}
+
+export const DEFAULT_CATEGORY: Category = {
+  name: 'Quesos',
+  id: 'QUESO',
+  icon: 'cheese.png',
+  shortcut: 'Q'
 }
 
 export const DEFAULT_CATEGORIES = [

@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
-import { KEY_TYPES } from '@/domain/config'
+import { ALLOWED_ACTIONS, DEFAULT_CATEGORIES, DEFAULT_CATEGORY, KEY_TYPES } from '@/domain/config'
 import type { KeyMetadata } from '@/domain/key-metadata'
 import { Calculator } from '@/domain/calculator'
+import { useCartStore } from './cart'
 
 export const keyboardStore = defineStore('keyboardStore', {
   state: () => ({
     stack: new Calculator(),
+    // TODO: Set default category as Category type
     category: {} as KeyMetadata,
     registeredKeys: new Map() as Map<string, KeyMetadata>
   }),
@@ -22,8 +24,19 @@ export const keyboardStore = defineStore('keyboardStore', {
           break
         case KEY_TYPES.DIGIT:
         case KEY_TYPES.OPERATION:
+          this.stack.keyPressed(key.value)
+          break
         case KEY_TYPES.ACTION:
           this.stack.keyPressed(key.value)
+          if (ALLOWED_ACTIONS.ENTER == key.value && this.category && this.value > 0) {
+            const cartStore = useCartStore()
+            const category =
+              DEFAULT_CATEGORIES.find((category) => category.id === this.category.value) ??
+              DEFAULT_CATEGORY
+            cartStore.addProduct({ category, value: this.value })
+            this.stack.keyPressed(ALLOWED_ACTIONS.DELETE)
+          }
+
           break
         default:
           break
